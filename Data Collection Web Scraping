@@ -1,0 +1,36 @@
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+url = 'http://quotes.toscrape.com/'
+response = requests.get(url)
+soup = BeautifulSoup(response.text, 'html.parser')
+
+quotes = []
+authors = []
+
+for item in soup.find_all('div', class_='quote'):
+    quote = item.find('span', class_='text').get_text()
+    author = item.find('small', class_='author').get_text()
+    quotes.append(quote)
+    authors.append(author)
+
+data_df = pd.DataFrame({'Quote': quotes, 'Author': authors})
+
+author_counts = data_df['Author'].value_counts()
+
+plt.figure(figsize=(10, 6))
+sns.barplot(x=author_counts.index, y=author_counts.values,
+            hue=author_counts.index, palette="viridis", legend=False)
+plt.title('Number of Quotes by Author')
+plt.xlabel('Author')
+plt.ylabel('Number of Quotes')
+plt.xticks(rotation=45)
+plt.show()
+
+data_df.to_csv('scraped_quotes.csv', index=False)
+
+from google.colab import files
+files.download('scraped_quotes.csv')
