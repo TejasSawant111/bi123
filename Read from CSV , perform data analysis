@@ -1,0 +1,21 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from google.colab import files
+uploaded = files.upload()
+
+data = pd.read_csv('Sample.csv')
+data['name'] = data['name'].str.strip()
+
+print(data.head())
+print(data.describe())
+print(data.info())
+
+plt.figure(figsize=(8,6))
+sns.histplot(data['age'], bins=10, kde=True)
+plt.show()
+
+plt.figure(figsize=(8,6))
+sns.boxplot(data=data, x='education', y='age')
+plt.show()
