@@ -1,0 +1,30 @@
+Practical No. 10
+Aim: To implement logistic regression in R to predict binary outcomes based on study hours.
+Theory:
+Logistic regression is a supervised learning classification algorithm used when the dependent
+variable is binary (0 or 1).
+Logistic function:
+P(Y = 1) = 1 / (1 + e^-(a + bx))
+Steps:
+1. Create Dataset
+2. Apply Logistic Regression
+3. Predict Probability
+4. Convert probability to class (0-1)
+5. Confusion Matrix
+Code:
+# Dataset
+hours <- c(1, 2, 3, 4, 5, 6, 7, 8)
+result <- c(0, 0, 0, 0, 1, 1, 1, 1)
+data <- data.frame(hours, result)
+# Logistic Regression Model
+model <- glm(result ~ hours, data = data, family = binomial)
+# Predict probability
+predict_prob <- predict(model, type = "response")
+print(predict_prob)
+# Convert probability to class
+predicted_class <- ifelse(predict_prob > 0.5, 1, 0)
+print(predicted_class)
+Conclusion:
+In this practical, logistic regression was implemented to predict binary outcomes based on study
+hours. The model estimates probabilities using the logistic function and classifies results into two
+categories, making it useful for classification problems.
